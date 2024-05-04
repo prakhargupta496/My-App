@@ -7,6 +7,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from '@mui/material/Button';
 import BoltIcon from '@mui/icons-material/Bolt';
 import img from '../images/test.jpg';
+import ShowMoreText from "react-show-more-text";
 import './JobCard.css';
 
 
@@ -27,7 +28,6 @@ const theme = createTheme({
 });
 
 export default function RecipeReviewCard(props) {
- 
   return (
     <Card sx={{ maxWidth: 345 }} className= "Card">
       <CardMedia
@@ -40,10 +40,26 @@ export default function RecipeReviewCard(props) {
         title={props.name}
         subheader={props.title}
       />
-      
-      
       <CardContent>
-        {props.jobDescription}
+        Experience Required: {props.expReq} years
+        <br/> 
+        Expected Salary: {props.minSal} - {props.maxSal} LPA
+        <br/> 
+        Location: {props.location}
+      </CardContent>
+      <CardContent className="content">
+        <h3>
+          About Company:
+        </h3>
+        <ShowMoreText lines={3} more="Show more"
+                less="Show less"
+                className="content-css"
+                anchorClass="show-more-less-clickable"
+                expanded={false}
+                truncatedEndingComponent={"... "}>
+          {props.jobDescription}
+        </ShowMoreText>
+        
       </CardContent>
       <ThemeProvider theme={theme}>
       <div className="Buttons">

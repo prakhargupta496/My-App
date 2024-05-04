@@ -7,3 +7,7 @@
 .Easy_Apply_Div{
     margin-bottom: 10px;
 }
+
+.content-css:hover{
+    cursor: pointer;
+}
