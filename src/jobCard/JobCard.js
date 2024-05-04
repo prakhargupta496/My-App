@@ -5,6 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from '@mui/material/Button';
+import img from '../images/test.jpg';
 import './JobCard.css';
 
 
@@ -28,7 +29,7 @@ export default function RecipeReviewCard() {
       <CardMedia
         component="img"
         height="194"
-        image="../images/test.jpg"
+        image={img}
         alt="Company Name"
       />
       <CardHeader
@@ -37,7 +38,9 @@ export default function RecipeReviewCard() {
       />
       
       <CardContent>
-        "Hello World"
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin accumsan dui et commodo feugiat. Fusce a pretium odio, at mattis metus. Duis in ante ex. Phasellus rhoncus erat at felis aliquam vehicula. Quisque sed tristique mauris, ut ultrices libero. Curabitur mattis risus arcu, sit amet mollis tortor varius eget. Pellentesque a lacus sed velit feugiat luctus. Sed luctus orci nec leo fermentum venenatis. Proin viverra elementum eleifend. Phasellus a neque faucibus, commodo odio sit amet, interdum ligula.
+
+Proin in arcu a mi hendrerit molestie sed sed nunc. Curabitur augue urna, ultrices in auctor pharetra, feugiat non odio. Curabitur dignissim aliquet."
       </CardContent>
       <ThemeProvider theme={theme}>
       <div className="Buttons">
