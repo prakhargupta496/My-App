@@ -17,7 +17,7 @@ export default function RecipeReviewCard() {
         component="img"
         height="194"
         image="../images/test.jpg"
-        alt="Paella dish"
+        alt="Company Name"
       />
       <CardHeader
         title="Company Name"
@@ -27,7 +27,15 @@ export default function RecipeReviewCard() {
       <CardContent>
         "Hello World"
       </CardContent>
-      <Button variant="contained">Contained</Button>
+      <div className="Buttons">
+        <div className="Easy_Apply_Div">
+          <Button variant="contained" fullWidth = {true} >Easy Apply</Button>
+        </div>
+        <div>
+          <Button variant="contained" fullWidth = {true}>Ask for referral</Button>
+        </div>
+      </div>
+      
     </Card>
   );
 }
