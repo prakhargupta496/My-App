@@ -6,7 +6,6 @@ import CardContent from '@mui/material/CardContent';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from '@mui/material/Button';
 import BoltIcon from '@mui/icons-material/Bolt';
-import ShowMoreText from "react-show-more-text";
 import img from '../images/test.jpg';
 import './JobCard.css';
 
@@ -27,7 +26,7 @@ const theme = createTheme({
   }
 });
 
-export default function RecipeReviewCard() {
+export default function RecipeReviewCard(props) {
  
   return (
     <Card sx={{ maxWidth: 345 }} className= "Card">
@@ -35,11 +34,11 @@ export default function RecipeReviewCard() {
         component="img"
         height="194"
         image={img}
-        alt="Company Name"
+        alt={props.name}
       />
       <CardHeader
-        title="Company Name"
-        subheader="Job Title"
+        title={props.name}
+        subheader="Software Engineer"
       />
       
       
