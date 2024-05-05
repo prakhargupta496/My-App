@@ -109,11 +109,9 @@ function App() {
       item.filter((c) => {
         
         if(c.name === searchVal){
-          return c;
+           return [c];
         }
-        return companies;
       })
-      return companies;
     })
     setCompanies(filterBySearch);
 }
@@ -144,7 +142,7 @@ function App() {
                   calculateColumnWidth(company[0].length, width)
                 }
                 height={height}
-                rowCount={companies.length}
+                rowCount={company.length}
                 rowHeight={600}
                 width={width}
               />
