@@ -115,20 +115,20 @@ const companies = [
   ]
 ];
 
-function showCompany({companyDetails, location, name, type, exp}){
+function showCompany({companyDetails, location, name, type, exp,title}){
   console.log(location);
   if(location){
-    if(companyDetails.location !== location){
+    if(companyDetails.location.toLowerCase() !== location.toLowerCase()){
       return false;
     }
   }
   if(name){
-    if(companyDetails.name !== name){
+    if(companyDetails.name.toLowerCase() !== name.toLowerCase()){
       return false;
     }
   }
   if(type){
-    if(companyDetails.type !== type){
+    if(companyDetails.type.toLowerCase() !== type.toLowerCase()){
       return false;
     }
   }
@@ -137,7 +137,11 @@ function showCompany({companyDetails, location, name, type, exp}){
       return false;
     }
   }
-  console.log(companyDetails);
+  if(title){
+    if(companyDetails.title.toLowerCase() !== title.toLowerCase()){
+      return false;
+    }
+  }
 
   return true;
 }
@@ -152,7 +156,6 @@ function filterCompanies(filters) {
     for(let j=0;j<companies[i].length;j++){
       const companyDetails = companies[i][j];
       if(showCompany({companyDetails, ...filters})){
-        console.log("Hello");
         col.push(companies[i][j]);
       }
       if(col.length === 3){
@@ -175,9 +178,10 @@ function App() {
   const [location, setLocation] = useState('');
   const [type, setType] = useState('');
   const [exp, setExp] = useState('');
+  const [title, setTitle] = useState('');
   
 
-  const filteredCompanies = useMemo(() => filterCompanies({name,location,type,exp}), [name,location,type,exp]);
+  const filteredCompanies = useMemo(() => filterCompanies({name,location,type,exp,title}), [name,location,type,exp,title]);
   console.log(filteredCompanies);
 
   return (
@@ -188,6 +192,7 @@ function App() {
           <TextField id="outlined-basic" variant="outlined" placeholder="Location" onChange={(e)=> setLocation(e.target.value)}/>
           <TextField id="outlined-basic" variant="outlined" placeholder="Type" onChange={(e)=> setType(e.target.value)}/>
           <TextField id="outlined-basic" variant="outlined" placeholder="Experience" onChange={(e)=> setExp(e.target.value)}/>
+          <TextField id="outlined-basic" variant="outlined" placeholder="Job Title" onChange={(e)=> setTitle(e.target.value)}/>
         </Box>
             <Box sx={{ height: "100vh", width: "100vw" }}>
           <AutoSizer>
