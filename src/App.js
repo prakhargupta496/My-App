@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo} from 'react'
 import { AutoSizer, Grid } from "react-virtualized";
 import Box from "@mui/material/Box";
 import TextField from '@mui/material/TextField';
-import { BsSearch } from 'react-icons/bs';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 // Components
@@ -46,7 +45,7 @@ const companies = [
     },
     {
       name: "Flipkart",
-      title: "Software Engineer",
+      title: "Manager",
       expReq: 3,
       location: "Bangalore",
       jobDescription: lorem,
@@ -54,7 +53,7 @@ const companies = [
     },
     {
       name: "Apple",
-      title: "Software Engineer",
+      title: "Product manager",
       expReq: 1,
       location: "Bangalore",
       jobDescription: lorem,
@@ -103,106 +102,93 @@ const companies = [
       location: "Bangalore",
       jobDescription: lorem,
       type: "on-site",
-    }
+    },
+    {
+      name: "Amazon",
+      title: "Software Engineer",
+      expReq: 2,
+      location: "Delhi",
+      jobDescription: lorem,
+      minSal: 15,
+      type: "remote",
+    },
   ]
 ];
 
+function showCompany({companyDetails, location, name, type, exp}){
+  console.log(location);
+  if(location){
+    if(companyDetails.location !== location){
+      return false;
+    }
+  }
+  if(name){
+    if(companyDetails.name !== name){
+      return false;
+    }
+  }
+  if(type){
+    if(companyDetails.type !== type){
+      return false;
+    }
+  }
+  if(exp){
+    if(companyDetails.exp !== exp){
+      return false;
+    }
+  }
+  console.log(companyDetails);
+
+  return true;
+}
+
+function filterCompanies(filters) {
+  if(!filters.location && !filters.type && !filters.exp && !filters.name ){
+    return companies;
+  }
+  let searchRes=[];
+  let col = [];
+  for(let i=0;i<companies.length;i++){
+    for(let j=0;j<companies[i].length;j++){
+      const companyDetails = companies[i][j];
+      if(showCompany({companyDetails, ...filters})){
+        console.log("Hello");
+        col.push(companies[i][j]);
+      }
+      if(col.length === 3){
+        searchRes.push(col);
+        col = [];
+      }
+    }
+  }
+  if(col.length){
+    searchRes.push(col);
+  }
+  if(!searchRes.length){
+    return companies;
+  }
+  return searchRes;
+}
+
 function App() {
-  // const [filter, setFilter] = useState();
-  const [company, setCompanies] = useState(companies);
-  const [searchVal, setSearchVal] = useState("");
-  function handleSearchByCompany() {
-    let searchRes=[];
-    let col = [];
-    for(let i=0;i<companies.length;i++){
-      for(let j=0;j<companies[i].length;j++){
-        if(companies[i][j].name === searchVal){
-          col.push(companies[i][j]);
-        }
-        if(col.length === 3){
-          searchRes.push(col);
-          col = [];
-        }
-      }
-    }
-    if(col.length){
-      searchRes.push(col);
-    }
-    console.log(searchRes)
-    if(searchRes.length === 0){
-      setCompanies(companies)
-    }else{
-      setCompanies(searchRes);
-    }
-    
-}
+  const [name, setName] = useState('');
+  const [location, setLocation] = useState('');
+  const [type, setType] = useState('');
+  const [exp, setExp] = useState('');
+  
 
-function handleSearchByLocation() {
-  let searchRes=[];
-  let col = [];
-  for(let i=0;i<companies.length;i++){
-    for(let j=0;j<companies[i].length;j++){
-      if(companies[i][j].location === searchVal){
-        col.push(companies[i][j]);
-      }
-      if(col.length === 3){
-        searchRes.push(col);
-        col = [];
-      }
-    }
-  }
-  if(col.length){
-    searchRes.push(col);
-  }
-  if(searchRes.length === 0){
-    setCompanies(companies)
-  }else{
-    setCompanies(searchRes);
-  }
-}
-function handleSearchByType() {
-  let searchRes=[];
-  let col = [];
-  for(let i=0;i<companies.length;i++){
-    for(let j=0;j<companies[i].length;j++){
-      if(companies[i][j].type === searchVal){
-        col.push(companies[i][j]);
-      }
-      if(col.length === 3){
-        searchRes.push(col);
-        col = [];
-      }
-    }
-  }
-  if(col.length){
-    searchRes.push(col);
-  }
-  if(searchRes.length === 0){
-    setCompanies(companies)
-  }else{
-    setCompanies(searchRes);
-  }
-}
-
-
+  const filteredCompanies = useMemo(() => filterCompanies({name,location,type,exp}), [name,location,type,exp]);
+  console.log(filteredCompanies);
 
   return (
     <ThemeProvider theme={theme}>
       <Fragment>
-        <Box sx={{display: 'inline'}}>
-          <TextField id="outlined-basic" variant="outlined" placeholder="Company Name" onChange={e => setSearchVal(e.target.value)}/>
-          <BsSearch onClick={handleSearchByCompany} />
+        <Box sx={{display: 'flex',gap: 2}}>
+          <TextField id="outlined-basic" variant="outlined" placeholder="Company Name" onChange={(e)=> setName(e.target.value)}/>
+          <TextField id="outlined-basic" variant="outlined" placeholder="Location" onChange={(e)=> setLocation(e.target.value)}/>
+          <TextField id="outlined-basic" variant="outlined" placeholder="Type" onChange={(e)=> setType(e.target.value)}/>
+          <TextField id="outlined-basic" variant="outlined" placeholder="Experience" onChange={(e)=> setExp(e.target.value)}/>
         </Box>
-        <Box sx={{display: 'inline'}}>
-          <TextField id="outlined-basic" variant="outlined" placeholder="Location" onChange={e => setSearchVal(e.target.value)}/>
-          <BsSearch onClick={handleSearchByLocation} />
-        </Box>
-        <Box sx={{display: 'inline'}}>
-          <TextField id="outlined-basic" variant="outlined" placeholder="Type" onChange={e => setSearchVal(e.target.value)}/>
-          <BsSearch onClick={handleSearchByType} />
-        </Box>
-        {company.map((comp) => {
-          return (
             <Box sx={{ height: "100vh", width: "100vw" }}>
           <AutoSizer>
             {({ height, width }) => (
@@ -210,25 +196,22 @@ function handleSearchByType() {
                 cellRenderer={({ columnIndex, key, rowIndex, style }) => (
                   <JobCard
                     key={key}
-                    data={company[rowIndex][columnIndex]}
+                    data={filteredCompanies[rowIndex]?.[columnIndex]}
                     style={style}
                   />
                 )}
-                columnCount={company[0].length}
+                columnCount={filteredCompanies[0]?.length}
                 columnWidth={() =>
-                  calculateColumnWidth(company[0].length, width)
+                  calculateColumnWidth(filteredCompanies[0]?.length, width)
                 }
                 height={height}
-                rowCount={company.length}
+                rowCount={filteredCompanies.length}
                 rowHeight={600}
                 width={width}
               />
             )}
           </AutoSizer>
         </Box>
-          )
-        })}
-        
       </Fragment>
     </ThemeProvider>
   );
