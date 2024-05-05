@@ -32,6 +32,7 @@ const calculateColumnWidth = (numberOfColumns, containerWidth) =>
 const lorem =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin accumsan dui et commodo feugiat. Fusce a pretium odio, at mattis metus. Duis in ante ex. Phasellus rhoncus erat at felis aliquam vehicula. Quisque sed tristique mauris, ut ultrices libero. Curabitur mattis risus arcu, sit amet mollis tortor varius eget. Pellentesque a lacus sed velit feugiat luctus. Sed luctus orci nec leo fermentum venenatis. Proin viverra elementum eleifend. Phasellus a neque faucibus, commodo odio sit amet, interdum ligula.Proin in arcu a mi hendrerit molestie sed sed nunc. Curabitur augue urna, ultrices in auctor pharetra, feugiat non odio. Curabitur dignissim aliquet.";
 
+// Static data as the API endpoint was not given in the assignment, also sent a mail regarding this but recieved no response
 const companies = [
   [
     {
@@ -50,6 +51,7 @@ const companies = [
       location: "Bangalore",
       jobDescription: lorem,
       type: "on-site",
+      minSal: 8,
     },
     {
       name: "Apple",
@@ -58,6 +60,7 @@ const companies = [
       location: "Bangalore",
       jobDescription: lorem,
       type: "remote",
+      minSal: 13,
     },
   ],
   [
@@ -68,6 +71,7 @@ const companies = [
       location: "Delhi",
       jobDescription: lorem,
       type: "on-site",
+      minSal: 11,
     },
     {
       name: "Weekday",
@@ -76,6 +80,7 @@ const companies = [
       location: "Bangalore",
       jobDescription: lorem,
       type: "remote",
+      minSal: 10,
     },
     {
       name: "Tekion",
@@ -84,6 +89,7 @@ const companies = [
       location: "Bangalore",
       jobDescription: lorem,
       type: "on-site",
+      minSal: 15,
     },
   ],
   [
@@ -94,6 +100,7 @@ const companies = [
       location: "Bangalore",
       jobDescription: lorem,
       type: "remote",
+      minSal: 10,
     },
     {
       name: "Google",
@@ -102,6 +109,7 @@ const companies = [
       location: "Bangalore",
       jobDescription: lorem,
       type: "on-site",
+      minSal: 8,
     },
     {
       name: "Amazon",
@@ -115,8 +123,8 @@ const companies = [
   ]
 ];
 
-function showCompany({companyDetails, location, name, type, exp,title}){
-  console.log(location);
+// Function to check if the current job is to be displayed as per the search queries
+function showCompany({companyDetails, location, name, type, exp,title,pay}){
   if(location){
     if(companyDetails.location.toLowerCase() !== location.toLowerCase()){
       return false;
@@ -133,7 +141,7 @@ function showCompany({companyDetails, location, name, type, exp,title}){
     }
   }
   if(exp){
-    if(companyDetails.exp !== exp){
+    if(companyDetails.expReq !== exp){
       return false;
     }
   }
@@ -142,12 +150,17 @@ function showCompany({companyDetails, location, name, type, exp,title}){
       return false;
     }
   }
+  if(pay){
+    if(companyDetails.minSal !== pay){
+      return false;
+    }
+  }
 
   return true;
 }
-
+// Function to filter the jobs 
 function filterCompanies(filters) {
-  if(!filters.location && !filters.type && !filters.exp && !filters.name ){
+  if(!filters.location && !filters.type && !filters.exp && !filters.name && !filters.title && !filters.pay){
     return companies;
   }
   let searchRes=[];
@@ -164,6 +177,7 @@ function filterCompanies(filters) {
       }
     }
   }
+  console.log(searchRes);
   if(col.length){
     searchRes.push(col);
   }
@@ -174,15 +188,16 @@ function filterCompanies(filters) {
 }
 
 function App() {
-  const [name, setName] = useState('');
-  const [location, setLocation] = useState('');
-  const [type, setType] = useState('');
-  const [exp, setExp] = useState('');
-  const [title, setTitle] = useState('');
+
+  const [name, setName] = useState(''); // State hook for searching on the basis of company name
+  const [location, setLocation] = useState(''); // State hook for searching on the basis of company location
+  const [type, setType] = useState(''); // State hook for searching on the basis of role type
+  const [exp, setExp] = useState(''); // State hook for searching on the basis of experience
+  const [title, setTitle] = useState(''); // State hook for searching on the basis of role title
+  const [pay, setPay] = useState(''); // State hook for searching on the basis of min pay
   
 
-  const filteredCompanies = useMemo(() => filterCompanies({name,location,type,exp,title}), [name,location,type,exp,title]);
-  console.log(filteredCompanies);
+  const filteredCompanies = useMemo(() => filterCompanies({name,location,type,exp,title,pay}), [name,location,type,exp,title,pay]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -192,7 +207,8 @@ function App() {
           <TextField id="outlined-basic" variant="outlined" placeholder="Location" onChange={(e)=> setLocation(e.target.value)}/>
           <TextField id="outlined-basic" variant="outlined" placeholder="Type" onChange={(e)=> setType(e.target.value)}/>
           <TextField id="outlined-basic" variant="outlined" placeholder="Experience" onChange={(e)=> setExp(e.target.value)}/>
-          <TextField id="outlined-basic" variant="outlined" placeholder="Job Title" onChange={(e)=> setTitle(e.target.value)}/>
+          <TextField id="outlined-basic" variant="outlined" placeholder="Job Role" onChange={(e)=> setTitle(e.target.value)}/>
+          <TextField id="outlined-basic" variant="outlined" placeholder="Min Pay" onChange={(e)=> setPay(e.target.value)}/>
         </Box>
             <Box sx={{ height: "100vh", width: "100vw" }}>
           <AutoSizer>
