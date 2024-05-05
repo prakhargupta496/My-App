@@ -42,29 +42,33 @@ const companies = [
       location: "Bangalore",
       jobDescription: lorem,
       minSal: 15,
+      type: "remote",
     },
     {
       name: "Flipkart",
       title: "Software Engineer",
-      expReq: 2,
+      expReq: 3,
       location: "Bangalore",
       jobDescription: lorem,
+      type: "on-site",
     },
     {
       name: "Apple",
       title: "Software Engineer",
-      expReq: 2,
+      expReq: 1,
       location: "Bangalore",
       jobDescription: lorem,
+      type: "remote",
     },
   ],
   [
     {
       name: "Netflix",
       title: "Software Engineer",
-      expReq: 2,
-      location: "Bangalore",
+      expReq: 0,
+      location: "Delhi",
       jobDescription: lorem,
+      type: "on-site",
     },
     {
       name: "Weekday",
@@ -72,29 +76,33 @@ const companies = [
       expReq: 2,
       location: "Bangalore",
       jobDescription: lorem,
+      type: "remote",
     },
     {
       name: "Tekion",
       title: "Software Engineer",
-      expReq: 2,
+      expReq: 3,
       location: "Bangalore",
       jobDescription: lorem,
+      type: "on-site",
     },
   ],
   [
     {
       name: "Microsoft",
       title: "Software Engineer",
-      expReq: 2,
+      expReq: 5,
       location: "Bangalore",
       jobDescription: lorem,
+      type: "remote",
     },
     {
       name: "Google",
       title: "Software Engineer",
-      expReq: 2,
+      expReq: 1,
       location: "Bangalore",
       jobDescription: lorem,
+      type: "on-site",
     }
   ]
 ];
@@ -103,26 +111,95 @@ function App() {
   // const [filter, setFilter] = useState();
   const [company, setCompanies] = useState(companies);
   const [searchVal, setSearchVal] = useState("");
-  function handleSearchClick() {
-    if (searchVal === "") { setCompanies(companies); return; }
-    const filterBySearch = companies.filter((item) => {
-      item.filter((c) => {
-        
-        if(c.name === searchVal){
-           return [c];
+  function handleSearchByCompany() {
+    let searchRes=[];
+    let col = [];
+    for(let i=0;i<companies.length;i++){
+      for(let j=0;j<companies[i].length;j++){
+        if(companies[i][j].name === searchVal){
+          col.push(companies[i][j]);
         }
-      })
-    })
-    setCompanies(filterBySearch);
+        if(col.length === 3){
+          searchRes.push(col);
+          col = [];
+        }
+      }
+    }
+    if(col.length){
+      searchRes.push(col);
+    }
+    console.log(searchRes)
+    if(searchRes.length === 0){
+      setCompanies(companies)
+    }else{
+      setCompanies(searchRes);
+    }
+    
 }
+
+function handleSearchByLocation() {
+  let searchRes=[];
+  let col = [];
+  for(let i=0;i<companies.length;i++){
+    for(let j=0;j<companies[i].length;j++){
+      if(companies[i][j].location === searchVal){
+        col.push(companies[i][j]);
+      }
+      if(col.length === 3){
+        searchRes.push(col);
+        col = [];
+      }
+    }
+  }
+  if(col.length){
+    searchRes.push(col);
+  }
+  if(searchRes.length === 0){
+    setCompanies(companies)
+  }else{
+    setCompanies(searchRes);
+  }
+}
+function handleSearchByType() {
+  let searchRes=[];
+  let col = [];
+  for(let i=0;i<companies.length;i++){
+    for(let j=0;j<companies[i].length;j++){
+      if(companies[i][j].type === searchVal){
+        col.push(companies[i][j]);
+      }
+      if(col.length === 3){
+        searchRes.push(col);
+        col = [];
+      }
+    }
+  }
+  if(col.length){
+    searchRes.push(col);
+  }
+  if(searchRes.length === 0){
+    setCompanies(companies)
+  }else{
+    setCompanies(searchRes);
+  }
+}
+
 
 
   return (
     <ThemeProvider theme={theme}>
       <Fragment>
-        <Box>
-          <TextField id="outlined-basic" label="Outlined" variant="outlined" onChange={e => setSearchVal(e.target.value)}/>
-          <BsSearch onClick={handleSearchClick} />
+        <Box sx={{display: 'inline'}}>
+          <TextField id="outlined-basic" variant="outlined" placeholder="Company Name" onChange={e => setSearchVal(e.target.value)}/>
+          <BsSearch onClick={handleSearchByCompany} />
+        </Box>
+        <Box sx={{display: 'inline'}}>
+          <TextField id="outlined-basic" variant="outlined" placeholder="Location" onChange={e => setSearchVal(e.target.value)}/>
+          <BsSearch onClick={handleSearchByLocation} />
+        </Box>
+        <Box sx={{display: 'inline'}}>
+          <TextField id="outlined-basic" variant="outlined" placeholder="Type" onChange={e => setSearchVal(e.target.value)}/>
+          <BsSearch onClick={handleSearchByType} />
         </Box>
         {company.map((comp) => {
           return (

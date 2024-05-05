@@ -21,6 +21,7 @@ export default function JobCard({
     maxSal,
     location,
     jobDescription = "",
+    type
   } = {},
   height,
   style,
@@ -46,7 +47,7 @@ export default function JobCard({
               Expected Salary: {minSal} - {maxSal} LPA
             </Box>
             <Box>Location: {location}</Box>
-
+            <Box> {type}</Box>
             <Box>
               <h3>About Company:</h3>
               <Box>
