@@ -14,14 +14,12 @@ const toggleShowwMore = (setShowMore) => !setShowMore;
 
 export default function JobCard({
   data: {
-    name,
-    title,
-    expReq,
-    minSal,
-    maxSal,
+    companyName,
+    jobRole,
+    minExp,
+    minJdSalary,
     location,
-    jobDescription = "",
-    type
+    jobDetailsFromCompany="",
   } = {},
   height,
   style,
@@ -36,24 +34,23 @@ export default function JobCard({
         sx={{ height: 1, display: "flex", flexDirection: "column", marginBottom: "100px"}}
         style={style}
       >
-        <CardMedia component="img" height="150" image={img} alt={name} />
+        <CardMedia component="img" height="150" image={img} alt={companyName} />
 
-        <CardHeader title={name} subheader={title} />
+        <CardHeader title={companyName} subheader={jobRole} />
 
         <CardContent sx={{ flexGrow: 1 }}>
           <Box sx={{ height: 200, overflowY: "scroll" }}>
-            <Box>Experience Required: {expReq} years</Box>
+            <Box>Experience Required: {minExp} years</Box>
             <Box>
-              Expected Salary: {minSal} - {maxSal} LPA
+              Expected Salary: {minJdSalary} - LPA
             </Box>
             <Box>Location: {location}</Box>
-            <Box> {type}</Box>
             <Box>
               <h3>About Company:</h3>
               <Box>
                 {showMore
-                  ? jobDescription
-                  : `${jobDescription.substring(0, 30)}...`}
+                  ? jobDetailsFromCompany
+                  : `${jobDetailsFromCompany.substring(0, 10)}...`}
 
                 {!showMore && (
                   <Button
