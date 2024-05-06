@@ -7,8 +7,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import BoltIcon from "@mui/icons-material/Bolt";
 
-// Images
-import img from "../images/test.jpg";
+
 
 const toggleShowwMore = (setShowMore) => !setShowMore;
 
@@ -20,6 +19,8 @@ export default function JobCard({
     minJdSalary,
     location,
     jobDetailsFromCompany="",
+    logoUrl,
+    jdLink,
   } = {},
   height,
   style,
@@ -34,7 +35,7 @@ export default function JobCard({
         sx={{ height: 1, display: "flex", flexDirection: "column", marginBottom: "100px"}}
         style={style}
       >
-        <CardMedia component="img" height="150" image={img} alt={companyName} />
+        <CardMedia component="img" height="150" image={logoUrl} alt={companyName} />
 
         <CardHeader title={companyName} subheader={jobRole} />
 
@@ -57,6 +58,7 @@ export default function JobCard({
                     onClick={handleShowMore}
                     variant="text"
                     disableElevation={true}
+                    target="_blank"
                   >
                     Show More
                   </Button>
@@ -72,6 +74,7 @@ export default function JobCard({
               color="neutral"
               disableElevation={true}
               startIcon={<BoltIcon color="icon" />}
+              href={jdLink}
             >
               Easy Apply
             </Button>

@@ -45,7 +45,7 @@ function showCompany({companyDetails, location, name, exp,title,pay}){
     }
   }
   if(exp){
-    if(companyDetails.minExp !== exp){
+    if(companyDetails.minExp && companyDetails.minExp.toString() !== exp){
       return false;
     }
   }
@@ -55,7 +55,7 @@ function showCompany({companyDetails, location, name, exp,title,pay}){
     }
   }
   if(pay){
-    if(companyDetails.minJdSalary !== pay){
+    if(companyDetails.minJdSalary && companyDetails.minJdSalary.toString() !== pay){
       return false;
     }
   }
@@ -70,16 +70,12 @@ function filterCompanies(filters) {
   }
   if(!companyData){
     companyData = filters.data.jdList
+    console.log(companyData);
     setList();
   }
   let searchRes=[];
   let col = [];
-
-
-
   for(let i=0;i<companyData.length;i++){
-
-
     for(let j=0;j<companyData[i].length;j++){
       const companyDetails = companyData[i][j];
       if(showCompany({companyDetails, ...filters})){
