@@ -26,8 +26,8 @@ const theme = createTheme({
   },
 });
 
-const calculateColumnWidth = (numberOfColumns, containerWidth) =>
-  containerWidth / numberOfColumns;
+const calculateColumnWidth = ( containerWidth) =>
+  containerWidth / 3;
 
 
 let companyData;
@@ -165,9 +165,9 @@ function App() {
                     style={style}
                   />
                 )}
-                columnCount={filteredCompanies[0]?.length}
+                columnCount={filteredCompanies[0]?.length }
                 columnWidth={() =>
-                  calculateColumnWidth(filteredCompanies[0]?.length, width)
+                  calculateColumnWidth(width)
                 }
                 height={height}
                 rowCount={filteredCompanies.length}
